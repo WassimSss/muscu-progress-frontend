@@ -8,13 +8,21 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      animation: {
+        'bounce-slow': 'bounce 3s infinite',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-    },
+      colors: {
+        'primary' : '#F2C317',
+        'primary-shade' : '#906F00'
+      }
+    }
   },
   plugins: [],
 };
+
 export default config;

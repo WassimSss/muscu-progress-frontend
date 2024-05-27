@@ -1,28 +1,31 @@
+"use client";
+
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import AnimatedButton from "./ui/AnimatedButton";
+import { useState } from "react";
 
-export default function Header() {
-
+export function Header({ className }: { className?: string }) {
+  const [active, setActive] = useState<string | null>(null);
   return (
+    <header
+      className={cn("flex items-center justify-between bg-primary", className)}
+    >
+      <Link href="/" className="m-3 ">
+        <p className="text-md font-bold md:text-lg text-white">MuscuProgress</p>
+      </Link>
+
+      <nav className="flex gap-3 m-3">
+
+        <Link href="/login">
+          <p className="text-white text-sm font-bold md:text-lg">Se connecter</p>
+        </Link>
+
+        <Link href="/register">
+          <p className="text-white text-sm font-bold md:text-lg">S'inscrire</p>
+        </Link>
+      </nav>
 
 
-    <nav className="bg-white border-gray-200 dark:bg-primary">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        {/* <Image src="/wired-flat-1807-boxing-glove.gif" alt="Logo" width={50} height={50} /> */}
-        <div className="flex items-center space-x-4">
-          <Link href="/" className="text-lg font-bold text-gray-900 dark:text-gray-100">MuscuProgress</Link>
-          <Link href="#" className="text-gray-900 dark:text-gray-100">Exercices</Link>
-          <Link href="#" className="text-gray-900 dark:text-gray-100">Workouts</Link>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Link href="#" className="text-gray-900 dark:text-gray-100">
-            <AnimatedButton text="Se connecter" horizontalPadding={4} verticalPadding={2} backgroundColor={"primary"} textColor={"white"} backgroundShadeColor={"primary-shade"} outlineBorder={true} />
-          </Link>
-          <Link href="#" className="text-gray-900 dark:text-gray-100">
-            <AnimatedButton text={"S'inscrire"} horizontalPadding={4} verticalPadding={2} backgroundColor={"primary"} textColor={"white"} backgroundShadeColor={"primary-shade"} outlineBorder={true} />
-          </Link>        </div >
-      </div >
-    </nav >
-
-  )
+    </header>
+  );
 }

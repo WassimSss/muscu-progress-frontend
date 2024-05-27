@@ -1,10 +1,13 @@
-import Header from "@/components/Header";
+import { Header } from "@/components/Header";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Signika } from "next/font/google";
+
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-
+const signika = Signika({
+  subsets: ["latin"],
+})
 export const metadata: Metadata = {
   title: "MuscuProgress",
   description: "",
@@ -22,13 +25,17 @@ export default function RootLayout({
         {/* <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> */}
 
       </head>
-      <body className={inter.className}>
-        <Header />
+      <body
+        className={cn(
+          "min-h-screen bg-[#121212] font-sans antialiased",
+        )}
+      >
+        <main className={signika.className}>
+          <Header />
+          {children}
 
-        {children}
-
-        <script src="https://cdn.lordicon.com/lordicon.js"></script>
+        </main>
       </body>
-    </html>
+    </html >
   );
 }

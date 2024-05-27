@@ -27,12 +27,10 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
 
   const handleTapStart = () => {
     setIsPressed(true);
-    console.log('tapped');
   };
 
   const handleTapEnd = () => {
     setIsPressed(false);
-    console.log('untapped');
   };
 
   return (
@@ -43,14 +41,16 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
       whileHover={{ scale: 0.95, y: 2 }}
       whileTap={{ scale: 0.9, y: 4 }}
       style={{
-        padding: `${verticalPadding * 0.25}rem ${horizontalPadding * 0.25}rem`,
+        // padding: `${verticalPadding * 0.25}rem ${horizontalPadding * 0.25}rem`,
         backgroundColor: backgroundColor,
         color: textColor,
         borderRadius: '0.5rem',
         boxShadow: '0px 5px 10px rgba(0, 0, 0, 0.15)',
         border: outlineBorder ? '2px solid' : 'none',
         borderBottom: isPressed ? '2px solid ' + backgroundShadeColor : '4px solid ' + backgroundShadeColor,
+        fontWeight: 600,
       }}
+      className={`text-sm px-2 py-1 sm:text-base sm:px-4 sm:py-2 md:px-6 md:py-3`}
     >
       {text}
     </motion.button>
@@ -58,3 +58,4 @@ const AnimatedButton: React.FC<AnimatedButtonProps> = ({
 };
 
 export default AnimatedButton;
+

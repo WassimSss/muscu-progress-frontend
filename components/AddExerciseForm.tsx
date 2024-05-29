@@ -1,7 +1,10 @@
 import InputWithLabel from "./ui/InputWithLabel";
 import SelectWithLabel from "./ui/SelectWithLabel";
 
-export default function AddExerciseForm() {
+type AddExerciseFormProps = {
+  className: string;
+}
+export default function AddExerciseForm({ className }: AddExerciseFormProps): JSX.Element {
 
   const options = [{
     value: "1",
@@ -18,8 +21,8 @@ export default function AddExerciseForm() {
   }]
 
   return (
-    <div className="bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl">
-      <SelectWithLabel label="Type d'exercice" required={true} id="exerciseType" name="exerciseType" className="mb-4 text-white" option={options} />
+    <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
+      <SelectWithLabel label="Type d exercice" required={true} id="exerciseType" name="exerciseType" className="mb-4 text-white" option={options} />
       <SelectWithLabel label="Groupe musculaire" required={true} id="muscleGroup" name="muscleGroup" className="mb-4 text-white" option={options} />
       <InputWithLabel label="Poids" type="number" placeholder="0" required={true} id="weight" name="weight" className="mb-4 text-white" />
       <InputWithLabel label="Reps" type="number" placeholder="0" required={true} id="reps" name="reps" className="mb-4 text-white" />

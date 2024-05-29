@@ -1,186 +1,10 @@
-export default function WorkoutSession() {
+type WorkoutSessionProps = {
+  className?: string;
+};
+
+export default function WorkoutSession({ className = "" }: WorkoutSessionProps): JSX.Element {
 
   const workoutData = [
-    {
-      muscleGroup: "Chest",
-      exercises: [
-        [
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-        ],
-        [
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-        ],
-        [
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-        ],
-        [
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-        ],
-        [
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-        ],
-      ],
-    },
-    {
-      muscleGroup: "Back",
-      exercises: [
-        [
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-        ],
-        [
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-        ],
-        [
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-        ],
-        [
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-        ],
-        [
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-        ],
-      ],
-    },
-    {
-      muscleGroup: "Chest",
-      exercises: [
-        [
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-        ],
-        [
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-        ],
-        [
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-        ],
-        [
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-        ],
-        [
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-        ],
-      ],
-    },
-    {
-      muscleGroup: "Back",
-      exercises: [
-        [
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-        ],
-        [
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-        ],
-        [
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-        ],
-        [
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-        ],
-        [
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-        ],
-      ],
-    },
-    {
-      muscleGroup: "Chest",
-      exercises: [
-        [
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-          { name: "Bench Press", weight: 80, repetitions: 10 },
-        ],
-        [
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-          { name: "Incline Dumbbell Press", weight: 30, repetitions: 12 },
-        ],
-        [
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-          { name: "Cable Flyes", weight: 20, repetitions: 15 },
-        ],
-        [
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-          { name: "Push-ups", weight: 0, repetitions: 20 },
-        ],
-        [
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-          { name: "Chest Dips", weight: 0, repetitions: 15 },
-        ],
-      ],
-    },
-    {
-      muscleGroup: "Back",
-      exercises: [
-        [
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-          { name: "Deadlift", weight: 100, repetitions: 8 },
-        ],
-        [
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-          { name: "Pull-ups", weight: 0, repetitions: 10 },
-        ],
-        [
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-          { name: "Bent-over Rows", weight: 60, repetitions: 12 },
-        ],
-        [
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-          { name: "Lat Pulldowns", weight: 50, repetitions: 15 },
-        ],
-        [
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-          { name: "T-Bar Rows", weight: 70, repetitions: 10 },
-        ],
-      ],
-    },
     {
       muscleGroup: "Chest",
       exercises: [
@@ -276,13 +100,13 @@ export default function WorkoutSession() {
   // Diffuser en ligne, est-ce que vous voulez des invitées en présentiel ? Dès aujourd'hui dire qu'il y aura une demo a créer en vidéo
   // qu'elle soit le plus pertinant, ainsi que le scenario. Présentation de 3mn.
   return (
-    <div className="flex bg-neutral-800 p-6 rounded-xl">
+    <div className={`flex bg-neutral-800 p-6 rounded-xl ${className}`}>
       <div className="w-1/2 flex flex-col gap-4">
         {workoutData
           .filter((_, index) => index % 2 === 0)
           .map((workout, i) => (
             <div key={i}>
-              <p className="text-primary font-bold text-xl">
+              <p className="font-bold text-xl text-primary">
                 {workout.muscleGroup}
               </p>
               <div className="flex flex-col gap-4">

@@ -1,10 +1,18 @@
-// "use client"
-
+'use client'
+import useAuthClientAndRedirect from "./hooks/useAuthClientAndRedirect";
+import useAuthServerAndRedirect from "./hooks/useAuthServerAndRedirect";
+import { useAppSelector } from '@/reducer/store';
 
 
 
 
 export default function Home() {
+  const requireAuth = true;
+  const redirect = "/"
+  useAuthServerAndRedirect(requireAuth, redirect);
+  useAuthClientAndRedirect(requireAuth, redirect);
+
+
   return (
     <main className="flex min-h-screen flex-col mt-24 md:p-24 gap-2 px-4">
 

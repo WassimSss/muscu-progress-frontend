@@ -1,8 +1,34 @@
+"use client"
+
+import { useAppSelector } from "@/reducer/store";
+import React, { useEffect } from "react";
+
 type WorkoutSessionProps = {
   className?: string;
 };
 
 export default function WorkoutSession({ className = "" }: WorkoutSessionProps): JSX.Element {
+  const [workouts, setWorkouts] = React.useState<any[]>([]);
+  const token = useAppSelector(state => state.users.value).token
+
+  const fetchWorkoutData = async () => {
+    const response = await fetch("http://localhost:3000/users/workouts/get", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.result) {
+      setWorkouts(data.workouts)
+    }
+  };
+  useEffect(() => {
+    fetchWorkoutData();
+  }, [])
+
+  // const workoutData = [
+  //   muscleGroup: workouts[0].muscleGroup,
 
   const workoutData = [
     {

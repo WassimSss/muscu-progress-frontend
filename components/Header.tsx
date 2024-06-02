@@ -1,12 +1,21 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { disconnect } from "@/reducer/slices/usersSlice";
+import { useAppSelector } from "@/reducer/store";
 import Link from "next/link";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 export function Header({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const token = useAppSelector(state => state.users.value).token
+  const dispatch = useDispatch();
+
+  const handleDisconnect = () => {
+    dispatch(disconnect());
+  }
+
   return (
     <header
       className={cn("flex items-center justify-between bg-primary", className)}
@@ -17,7 +26,7 @@ export function Header({ className }: { className?: string }) {
 
       <nav className="flex gap-3 m-3">
 
-        {isConnected ? (
+        {token ? (
           <>
             <Link href="/app">
               <p className="text-white text-sm font-bold md:text-lg">S'entrainer</p>
@@ -27,9 +36,9 @@ export function Header({ className }: { className?: string }) {
               <p className="text-white text-sm font-bold md:text-lg">Profil</p>
             </Link>
 
-            <Link href="/">
+            <button onClick={handleDisconnect}>
               <p className="text-white text-sm font-bold md:text-lg">Déconnexion</p>
-            </Link>
+            </button>
           </>
         ) : (
           <>

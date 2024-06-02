@@ -3,13 +3,17 @@
 
 import Step1 from "@/components/Step1";
 import { useState } from "react";
+import useAuthServerAndRedirect from "../hooks/useAuthServerAndRedirect";
+import useAuthClientAndRedirect from "../hooks/useAuthClientAndRedirect";
 
 export default function Page() {
-  const [step, setStep] = useState<string>("1");
+  const requireAuth = false;
+  const redirect = "/app"
 
-  const handleChangeStep = (step: string) => {
-    setStep(step);
-  }
+  useAuthServerAndRedirect(requireAuth, redirect);
+  useAuthClientAndRedirect(requireAuth, redirect);
+
+  const [step, setStep] = useState<string>("1");
 
   return (
     <main className="flex min-h-screen flex-col items-center mt-14 w-full">
@@ -17,7 +21,7 @@ export default function Page() {
 
 
 
-      {step === "1" && <Step1 handleChangeStep={handleChangeStep} />}
+      {step === "1" && <Step1 />}
 
       {/* <StepArrow /> */}
     </main>

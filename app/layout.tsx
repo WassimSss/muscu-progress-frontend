@@ -4,6 +4,11 @@ import type { Metadata } from "next";
 import { Signika } from "next/font/google";
 
 import "./globals.css";
+import dynamic from "next/dynamic";
+
+const ReduxProvider = dynamic(() => import("./StoreProvider"), {
+  ssr: false
+});
 
 const signika = Signika({
   subsets: ["latin"],
@@ -30,11 +35,13 @@ export default function RootLayout({
           "min-h-screen bg-[#121212] font-sans antialiased",
         )}
       >
-        <main className={signika.className}>
-          <Header />
-          {children}
+        <ReduxProvider>
+          <main className={signika.className}>
+            <Header />
+            {children}
+          </main>
+        </ReduxProvider>
 
-        </main>
       </body>
     </html >
   );

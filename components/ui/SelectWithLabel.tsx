@@ -16,9 +16,17 @@ interface SelectWithLabelProps {
 
 export default function SelectWithLabel({ label, name, required, className, option, onChange, active = true }: SelectWithLabelProps) {
 
-  const optionJSX = option.map((option, i) => {
+
+  const optionJSX = [{
+    value: "",
+    label: "--Choisir un groupe musculaire--"
+  }, ...option].map((option, i) => {
     return <option value={option.value} key={i}>{option.label}</option>
   });
+
+  // const optionJSX = option.map((option, i) => {
+  //   return <option value={option.value} key={i}>{option.label}</option>
+  // });
 
   return (<div>
     <label htmlFor={name} className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${className}`}>{label}</label>

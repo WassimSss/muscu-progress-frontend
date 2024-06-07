@@ -5,6 +5,8 @@ import { Signika } from "next/font/google";
 
 import "./globals.css";
 import dynamic from "next/dynamic";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const ReduxProvider = dynamic(() => import("./StoreProvider"), {
   ssr: false
@@ -27,6 +29,7 @@ export default function RootLayout({
 
     <html lang="fr">
       <head>
+
         {/* <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" /> */}
 
       </head>
@@ -39,6 +42,7 @@ export default function RootLayout({
           <main className={signika.className}>
             <Header />
             {children}
+            <ToastContainer />
           </main>
         </ReduxProvider>
 

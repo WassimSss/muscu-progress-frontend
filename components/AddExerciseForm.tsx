@@ -53,16 +53,16 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
 
         if (data.result) {
           setMuscleGroups(data.muscleGroups);
-          handleMuscleGroupChange(data.muscleGroups[0]._id)
+          // handleMuscleGroupChange(data.muscleGroups[0]._id)
           console.log(data)
         }
       });
   }, [])
 
   const handleMuscleGroupChange = (value: string) => {
-    setSelectedMuscleGroup(value)
-
-    console.log(selectedMuscleGroup, value)
+    setSelectedMuscleGroup(value);
+    setSelectedExercise(null);
+    console.log(selectedMuscleGroup, value);
     fetch(`http://localhost:3000/users/exercises/get/${value}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -72,7 +72,8 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
       .then((data: ExercisesObjectData) => {
         if (data.result) {
           setExercises(data.exercises)
-          setSelectedExercise(data.exercises[0]._id)
+          data.exercises[0] && setSelectedExercise(data.exercises[0]._id)
+
         }
 
       });
@@ -128,8 +129,8 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
   }
   return (
     <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
-      <SelectWithLabel label="Groupe musculaire" required={true} id="muscleGroup" name="muscleGroup" className="mb-4 text-white" option={muscleGroupsOption} onChange={handleMuscleGroupChange} />
-      <SelectWithLabel label="Type d exercice" required={true} id="exerciseType" name="exerciseType" className="mb-4 text-white" option={exercisesOption} onChange={handleExerciseChange} active={selectedMuscleGroup !== null} />
+      <SelectWithLabel label="Groupe musculaire" required={true} id="muscleGroup" name="muscleGroup" className="mb-4 text-white" option={muscleGroupsOption} onChange={handleMuscleGroupChange} text="Selectionner un groupe musculaire" />
+      <SelectWithLabel label="Type d exercice" required={true} id="exerciseType" name="exerciseType" className="mb-4 text-white" option={exercisesOption} onChange={handleExerciseChange} active={selectedMuscleGroup !== null} text="Selectionner un exercice" />
       <InputWithLabel label="Poids" type="number" placeholder="0" required={true} id="weight" name="weight" className="mb-4 text-white" minLength={0} maxLength={3} active={selectedExercise !== null} onChange={(e) => handleWeightChange(e)} value={weight ? weight.toString() : ""} />
       <InputWithLabel label="Reps" type="number" placeholder="0" required={true} id="reps" name="reps" className="mb-4 text-white" minLength={0} maxLength={3} active={selectedExercise !== null} onChange={(e) => handleRepsChange(e)} value={reps ? reps.toString() : ""} />
 

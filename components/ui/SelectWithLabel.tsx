@@ -12,16 +12,20 @@ interface SelectWithLabelProps {
   option: optionObject[];
   onChange: (value: string) => void;
   active?: boolean;
+  text?: string | null;
 }
 
-export default function SelectWithLabel({ label, name, required, className, option, onChange, active = true }: SelectWithLabelProps) {
+export default function SelectWithLabel({ label, name, required, className, option, onChange, active = true, text = null }: SelectWithLabelProps) {
 
 
-  const optionJSX = [{
+  const optionJSX = [active ? {
     value: "",
-    label: "--Choisir un groupe musculaire--"
-  }, ...option].map((option, i) => {
-    return <option value={option.value} key={i}>{option.label}</option>
+    label: text ? text : "Sélectionner une option"
+  } : null, ...option].map((option, i) => {
+    if (option) {
+      return <option value={option.value} key={i}>{option.label}</option>
+    }
+    return null;
   });
 
   // const optionJSX = option.map((option, i) => {

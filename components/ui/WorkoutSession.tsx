@@ -2,11 +2,12 @@
 
 import { useAppSelector } from "@/reducer/store";
 import { Minus } from "lucide-react";
+import moment from "moment";
 import React, { useEffect } from "react";
 
 interface WorkoutSessionProps {
   className?: string;
-  fetchWorkoutData: () => void;
+  fetchWorkoutData: (date: string, isDateSelected?: boolean) => void;
   workouts: WorkoutData[];
   refreshWorkouts: boolean;
   handleRefreshWorkouts: () => void;
@@ -32,7 +33,6 @@ export default function WorkoutSession({ className = "", fetchWorkoutData, worko
   const token = useAppSelector(state => state.users.value).token
 
   const handleRemove = async (idSet: number) => {
-    console.log(idSet);
     const response = await fetch(`http://localhost:3000/users/workouts/sets/${idSet}/remove`, {
       method: 'DELETE',
       headers: {
@@ -42,14 +42,13 @@ export default function WorkoutSession({ className = "", fetchWorkoutData, worko
     });
 
     const data = await response.json();
-    console.log(data)
     if (data.result) {
       handleRefreshWorkouts();
     }
   }
 
   useEffect(() => {
-    fetchWorkoutData();
+    fetchWorkoutData(moment().format('YYYY-MM-DD'));
   }, [refreshWorkouts]);
 
 
@@ -64,7 +63,6 @@ export default function WorkoutSession({ className = "", fetchWorkoutData, worko
             <p className="text-white underline  mb-2">{exercise.name}</p>
 
             {exercise.sets.map((set, i) => {
-              console.log(exercise);
               return (
                 <div key={i} className="flex">
                   <p className="text-white w-16">{set.reps} <span className="text-primary">reps</span></p>

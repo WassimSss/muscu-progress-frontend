@@ -10,6 +10,7 @@ import { useAppSelector } from "@/reducer/store"
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   handleChangeMonth: (type: string) => void;
+  handleSelectedDate: (date: Date) => void;
 }
 
 const bookedDays = [
@@ -24,13 +25,14 @@ function Calendar({
   classNames,
   showOutsideDays = false,
   handleChangeMonth,
+  handleSelectedDate,
   ...props
 }: CalendarProps) {
   const token = useAppSelector(state => state.users.value).token
 
   return (
     <DayPicker
-      onDayClick={(day) => console.log(day)}
+      onDayClick={(day) => handleSelectedDate(day)}
       showOutsideDays={showOutsideDays}
       className={cn("p-3", className)}
       classNames={{

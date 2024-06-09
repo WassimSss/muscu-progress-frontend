@@ -9,35 +9,14 @@ import React, { useEffect } from "react";
 import useAuthServerAndRedirect from "../hooks/useAuthServerAndRedirect";
 import useAuthClientAndRedirect from "../hooks/useAuthClientAndRedirect";
 import { toast } from 'react-toastify';
+import { WorkedDays, WorkoutData } from "../type";
+const moment = require('moment');
 
 const bookedDays = [
   new Date(2024, 4, 8),
   new Date(2024, 4, 9),
   new Date(2024, 4, 10),
 ];
-
-interface WorkoutSessionProps {
-  className?: string;
-};
-
-interface WorkoutExerciseSets {
-  weight: number;
-  reps: number;
-}
-
-interface WorkoutExercise {
-  name: string;
-  sets: WorkoutExerciseSets[];
-}
-
-interface WorkoutData {
-  muscleGroup: string;
-  exercises: WorkoutExercise[]
-}
-
-interface WorkedDays {
-  [key: string]: Date[];
-}
 
 export default function Page() {
   const requireAuth = true;
@@ -47,23 +26,32 @@ export default function Page() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [exercises, setExercises] = React.useState<any>([]);
   const [workouts, setWorkouts] = React.useState<WorkoutData[]>([]);
+  const [selectedWorkouts, setSelectedWorkouts] = React.useState<WorkoutData[]>([]);
   const [refreshWorkouts, setRefreshWorkouts] = React.useState<boolean>(false);
   const token = useAppSelector(state => state.users.value).token;
   const [workoutsDay, setWorkoutsDay] = React.useState<Date[]>([]);
   const [month, setMonth] = React.useState<number>(new Date().getMonth() + 1);
   const [year, setYear] = React.useState<number>(new Date().getFullYear());
-  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(new Date());
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(undefined);
+
   const [workedDaysByMonth, setWorkedDaysByMonth] = React.useState<WorkedDays>({});
 
-  const fetchWorkoutData = async () => {
-    const response = await fetch("http://localhost:3000/users/workouts/get", {
+  const today = moment(date).format('YYYY-MM-DD');
+
+  const fetchWorkoutData = async (date: string = today, isDateSelected: boolean = false) => {
+    console.log(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`)
+    const response = await fetch(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     const data = await response.json();
-    console.log(data);
     if (data.result) {
+      if (isDateSelected) {
+        setSelectedWorkouts(data.workouts);
+        return
+      }
+      console.log("setWorkouts", data.workouts)
       setWorkouts(data.workouts);
     }
   };
@@ -76,7 +64,6 @@ export default function Page() {
     const monthYearKey = `${year}-${month}`;
     // Check if the days are already fetched for the month
     if (workedDaysByMonth[monthYearKey]) {
-      console.log("already fetched", workedDaysByMonth[monthYearKey])
       setWorkoutsDay(workedDaysByMonth[monthYearKey]);
       return;
     }
@@ -87,14 +74,11 @@ export default function Page() {
       },
     });
     const data = await response.json();
-    console.log("worked days : ", data);
     if (data.result) {
       const dateWorkedDays = data.workedDays.map((day: any) => {
-        console.log("day : ", day);
         let splitDate = day.split('-');
         return new Date(parseInt(splitDate[0]), parseInt(splitDate[1]) - 1, parseInt(splitDate[2]));
       });
-      console.log("dateWorkedDays : ", dateWorkedDays);
 
       // Update the state with the fetched data
       setWorkedDaysByMonth(prev => ({ ...prev, [monthYearKey]: dateWorkedDays }));
@@ -107,7 +91,6 @@ export default function Page() {
   }, [month, year]);
 
   const handleChangeMonth = (type: string) => {
-    console.log("type : ", type, month)
     if (type === "prev") {
       if (month === 1) {
         setMonth(12);
@@ -123,6 +106,11 @@ export default function Page() {
         setMonth(month + 1);
       }
     }
+  }
+
+  const handleSelectDate = (date: Date) => {
+    setSelectedDate(date);
+    fetchWorkoutData(moment(date).format('YYYY-MM-DD'), true);
   }
 
   return (
@@ -141,12 +129,11 @@ export default function Page() {
           modifiers={{ booked: workoutsDay }}
           modifiersClassNames={{ booked: "bg-primary-shade" }}
           handleChangeMonth={handleChangeMonth}
+          handleSelectedDate={handleSelectDate}
         />
 
-        <WorkoutDayDetails className="my-4 md:my-0 md:w-1/2" />
+        <WorkoutDayDetails className="my-4 md:my-0 md:w-1/2" workouts={selectedWorkouts} selectedDate={selectedDate} />
       </div>
     </main>
   );
 }
-
-export type { WorkoutData };

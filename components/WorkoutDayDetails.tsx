@@ -1,5 +1,7 @@
+import { WorkoutData } from "@/app/type";
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 
 
 const workoutData = [
@@ -72,10 +74,12 @@ const workoutData = [
 
 type WorkoutDayDetailsProps = {
   className?: string;
+  workouts?: WorkoutData[];
+  selectedDate?: Date;
 }
 
-export default function WorkoutDayDetails({ className = "" }: WorkoutDayDetailsProps): JSX.Element {
-  const initialVisibility = workoutData.map(muscleGroup =>
+export default function WorkoutDayDetails({ className = "", workouts = [], selectedDate }: WorkoutDayDetailsProps): JSX.Element {
+  const initialVisibility = workouts.map(muscleGroup =>
     muscleGroup.exercises.map(() => false)
   );
 
@@ -83,62 +87,75 @@ export default function WorkoutDayDetails({ className = "" }: WorkoutDayDetailsP
 
   const toggleVisibility = (muscleGroupIndex: number, exerciseIndex: number) => {
     setIsExerciseVisible(prevState => {
-      // Create a deep copy of the state
       const newState = JSON.parse(JSON.stringify(prevState));
-
-      // Toggle the visibility
       newState[muscleGroupIndex][exerciseIndex] = !newState[muscleGroupIndex][exerciseIndex];
-
       return newState;
     });
   };
 
-  const workoutDayDetails = workoutData.map((muscleGroupExercises, muscleGroupIndex) => {
-    return (
-      <div key={muscleGroupIndex} className="text-white text">
-        <h2 className="text-primary font-bold text-xl gap-y-4">{muscleGroupExercises.muscleGroup}</h2>
+  useEffect(() => {
+    if (workouts.length === 0) {
+      setIsExerciseVisible([]);
+    } else {
+      const initialVisibility = workouts.map(muscleGroup =>
+        muscleGroup.exercises.map(() => false)
+      );
+      setIsExerciseVisible(initialVisibility);
+    }
+    console.log("workouts : ", workouts);
 
-        <div className="flex gap-x-4 items-center my-8">
-          <p className="w-1/2 underline ">Exercices</p>
-          <p className="w-1/6 underline ">Séries</p>
-          <p className="w-1/6 underline ">Poids</p>
-          <p className="w-1/6 underline ">Reps</p>
-        </div>
-        {muscleGroupExercises.exercises.map((exercises, exerciseIndex) => {
-          return (
-            <div key={exerciseIndex} className="mb-2">
-              <div className="flex gap-x-4 items-center my-4">
-                <p className="w-1/2 ">{exercises[0].name}</p>
-                <p className="w-1/6 ">{exercises.length}</p>
-                <p className="w-1/6 ">{exercises[0].weight} <span className="text-primary">kg</span></p>
-                <p className="w-1/6 ">{exercises[0].repetitions}</p>
-                <ChevronDown className="cursor-pointer" onClick={() => toggleVisibility(muscleGroupIndex, exerciseIndex)} />
-              </div>
-              {isExerciseVisible[muscleGroupIndex][exerciseIndex] && (
-                <div className="">
-                  {exercises.slice(1).map((exercise, subIndex) => (
-                    <div key={subIndex} className="flex gap-x-4 gap-y-4">
-                      <p className="w-1/2 "></p>
-                      <p className="w-1/6 "></p>
-                      <p className="w-1/6  text-neutral-400">{exercise.weight} kg</p>
-                      <p className="w-1/6  text-neutral-400">{exercise.repetitions}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
+  }, [workouts]);
+
+  const workoutDayDetails = workouts.map((muscleGroupExercises, muscleGroupIndex) => (
+    <div key={muscleGroupIndex} className="text-white text">
+      <h2 className="text-primary font-bold text-xl gap-y-4">{muscleGroupExercises.muscleGroup}</h2>
+
+      <div className="flex gap-x-4 items-center my-8">
+        <p className="w-1/2 underline">Exercices</p>
+        <p className="w-1/6 underline">Séries</p>
+        <p className="w-1/6 underline">Poids</p>
+        <p className="w-1/6 underline">Reps</p>
       </div>
-    );
-  });
+
+      {muscleGroupExercises.exercises.map((exercise, exerciseIndex) => (
+        <div key={exerciseIndex} className="mb-2">
+          <div className="flex gap-x-4 items-center my-4">
+            <p className="w-1/2">{exercise.name}</p>
+            <p className="w-1/6">{exercise.sets.length}</p>
+            <p className="w-1/6">{exercise.sets[0].weight} <span className="text-primary">kg</span></p>
+            <p className="w-1/6">{exercise.sets[0].reps}</p>
+            <ChevronDown className="cursor-pointer" onClick={() => toggleVisibility(muscleGroupIndex, exerciseIndex)} />
+          </div>
+          {isExerciseVisible[muscleGroupIndex] && isExerciseVisible[muscleGroupIndex][exerciseIndex] && (
+            <div>
+              {exercise.sets.slice(1).map((set, setIndex) => (
+                <div key={setIndex} className="flex gap-x-4 gap-y-4">
+                  <p className="w-1/2"></p>
+                  <p className="w-1/6"></p>
+                  <p className="w-1/6 text-neutral-400">{set.weight} kg</p>
+                  <p className="w-1/6 text-neutral-400">{set.reps}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  ));
 
   return (
-    <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
-      <p className="text-white font-xl">Séance du <span className="text-primary">08</span>/<span className="text-primary">05</span>/<span className="text-primary">2024</span></p>
+    <div className={`bg-neutral-800 p-6 flex flex-col gap-4 rounded-xl ${className}`}>
+
+      {selectedDate ? <p className="text-white font-xl">
+        Séance du <span className="text-primary">{moment(selectedDate).format('DD')}</span>/
+        <span className="text-primary">{moment(selectedDate).format('MM')}</span>/
+        <span className="text-primary">{moment(selectedDate).format('YYYY')}</span>
+      </p> : <p className="text-white font-xl">Sélectionnez une date pour afficher les détails de la séance</p>}
+
       <div className="mx-auto lg:mx-4">
         {workoutDayDetails}
       </div>
     </div>
   );
 }
+

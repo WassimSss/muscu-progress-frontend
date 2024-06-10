@@ -36,10 +36,14 @@ export default function Page() {
 
   const [workedDaysByMonth, setWorkedDaysByMonth] = React.useState<WorkedDays>({});
 
-  const today = moment(date).format('YYYY-MM-DD');
+  const today = moment().format('YYYY-MM-DD');
 
   const fetchWorkoutData = async (date: string = today, isDateSelected: boolean = false) => {
-    console.log(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`)
+    console.log("isDateSelected ? date : today ", isDateSelected ? date : today)
+    console.log("isDateSelected : ", isDateSelected)
+    console.log("date : ", date)
+    console.log("today : ", today)
+    // console.log(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`)
     const response = await fetch(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,9 +55,10 @@ export default function Page() {
         setSelectedWorkouts(data.workouts);
         return
       }
-      console.log("setWorkouts", data.workouts)
+      console.log("setWorkouts : ", data.workouts)
       setWorkouts(data.workouts);
     }
+    console.log("data fetch workout : ", data)
   };
 
   const handleRefreshWorkouts = () => {

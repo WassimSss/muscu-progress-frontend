@@ -125,6 +125,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
 
     const data = await addWokout.json();
 
+    console.log("data add : ", data)
     handleRefreshWorkouts();
   }
   return (

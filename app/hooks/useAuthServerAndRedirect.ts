@@ -40,7 +40,7 @@ const useAuthServerAndRedirect = (requireAuth: boolean, redirect: string) => {
 
 			checkAuth();
 		},
-		[router]
+		[router, redirect, requireAuth, token]
 	);
 };
 

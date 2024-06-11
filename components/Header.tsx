@@ -29,7 +29,7 @@ export function Header({ className }: { className?: string }) {
         {token ? (
           <>
             <Link href="/app">
-              <p className="text-white text-sm font-bold md:text-lg">S'entrainer</p>
+              <p className="text-white text-sm font-bold md:text-lg">S&apos;entrainer</p>
             </Link>
 
             <Link href="/profil">
@@ -47,7 +47,7 @@ export function Header({ className }: { className?: string }) {
             </Link>
 
             <Link href="/register">
-              <p className="text-white text-sm font-bold md:text-lg">S'inscrire</p>
+              <p className="text-white text-sm font-bold md:text-lg">S&apos;inscrire</p>
             </Link>
           </>
         )

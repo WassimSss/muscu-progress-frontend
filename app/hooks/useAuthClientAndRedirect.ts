@@ -31,7 +31,7 @@ const useAuthClientAndRedirect = (requireAuth: boolean, redirect: string) => {
             
         }
         
-    }, [token, router]);
+    }, [token, router, redirect, requireAuth]);
 };
 
 export default useAuthClientAndRedirect;

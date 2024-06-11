@@ -93,7 +93,7 @@ export default function Page() {
 
   useEffect(() => {
     getWorkoutedDays(month, year);
-  }, [month, year]);
+  }, [month]);
 
   const handleChangeMonth = (type: string) => {
     if (type === "prev") {

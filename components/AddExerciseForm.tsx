@@ -38,8 +38,8 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
 
   const [selectedMuscleGroup, setSelectedMuscleGroup] = React.useState<string | null>(null)
   const [selectedExercise, setSelectedExercise] = React.useState<string | null>(null)
-  const [weight, setWeight] = React.useState<number | null>(null)
-  const [reps, setReps] = React.useState<number | null>(null)
+  const [weight, setWeight] = React.useState<string | null>(null)
+  const [reps, setReps] = React.useState<string | null>(null)
   const token = useAppSelector(state => state.users.value).token
 
   useEffect(() => {
@@ -84,11 +84,28 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
   }
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWeight(parseInt(e.target.value))
+    // setWeight(parseInt(e.target.value))
+
+    let str = e.target.value;
+
+    // Permettre uniquement les nombres et un seul point
+    const regex = /^\d{0,4}([.,]\d{0,2})?$/;
+
+    if (regex.test(str)) {
+      setWeight(str);
+    }
   }
 
   const handleRepsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReps(parseInt(e.target.value))
+
+    let str = e.target.value;
+
+    // Permettre uniquement les nombres et un seul point
+    const regex = /^\d{0,4}([.,]\d{0,2})?$/;
+
+    if (regex.test(str)) {
+      setReps(str);
+    }
   }
 
   const muscleGroupsOption = muscleGroups.map((muscleGroup: MuscleGroupObject) => {

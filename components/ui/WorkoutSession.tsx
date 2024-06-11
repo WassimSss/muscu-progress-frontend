@@ -49,7 +49,7 @@ export default function WorkoutSession({ className = "", fetchWorkoutData, worko
 
   useEffect(() => {
     fetchWorkoutData(moment().format('YYYY-MM-DD'));
-  }, [refreshWorkouts]);
+  }, [refreshWorkouts, fetchWorkoutData]);
 
 
 

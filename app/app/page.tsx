@@ -38,7 +38,7 @@ export default function Page() {
 
   const today = moment().format('YYYY-MM-DD');
 
-  const fetchWorkoutData = async (date: string = today, isDateSelected: boolean = false) => {
+  const fetchWorkoutData = useCallback(async (date: string = today, isDateSelected: boolean = false) => {
     console.log("isDateSelected ? date : today ", isDateSelected ? date : today)
     console.log("isDateSelected : ", isDateSelected)
     console.log("date : ", date)
@@ -59,7 +59,7 @@ export default function Page() {
       setWorkouts(data.workouts);
     }
     console.log("data fetch workout : ", data)
-  };
+  }, [today, token]);
 
   const handleRefreshWorkouts = () => {
     setRefreshWorkouts(!refreshWorkouts);

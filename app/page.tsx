@@ -7,8 +7,8 @@ import { useAppSelector } from '@/reducer/store';
 
 
 export default function Home() {
-  const requireAuth = true;
-  const redirect = "/"
+  const requireAuth = false;
+  const redirect = "/app"
   useAuthServerAndRedirect(requireAuth, redirect);
   useAuthClientAndRedirect(requireAuth, redirect);
 

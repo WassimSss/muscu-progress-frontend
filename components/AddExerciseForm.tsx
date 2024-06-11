@@ -57,7 +57,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
           console.log(data)
         }
       });
-  }, [])
+  }, [token])
 
   const handleMuscleGroupChange = (value: string) => {
     setSelectedMuscleGroup(value);

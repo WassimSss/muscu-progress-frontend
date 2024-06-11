@@ -5,7 +5,7 @@ import WorkoutDayDetails from "@/components/WorkoutDayDetails";
 import WorkoutSession from "@/components/ui/WorkoutSession";
 import { Calendar } from "@/components/ui/calendar";
 import { useAppSelector } from "@/reducer/store";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import useAuthServerAndRedirect from "../hooks/useAuthServerAndRedirect";
 import useAuthClientAndRedirect from "../hooks/useAuthClientAndRedirect";
 import { toast } from 'react-toastify';
@@ -65,7 +65,7 @@ export default function Page() {
     setRefreshWorkouts(!refreshWorkouts);
   }
 
-  const getWorkoutedDays = async (month: number, year: number) => {
+  const getWorkoutedDays = useCallback(async (month: number, year: number) => {
     const monthYearKey = `${year}-${month}`;
     // Check if the days are already fetched for the month
     if (workedDaysByMonth[monthYearKey]) {
@@ -89,11 +89,11 @@ export default function Page() {
       setWorkedDaysByMonth(prev => ({ ...prev, [monthYearKey]: dateWorkedDays }));
       setWorkoutsDay(dateWorkedDays);
     }
-  }
+  }, [token, workedDaysByMonth])
 
   useEffect(() => {
     getWorkoutedDays(month, year);
-  }, [month]);
+  }, [month, year, getWorkoutedDays]);
 
   const handleChangeMonth = (type: string) => {
     if (type === "prev") {

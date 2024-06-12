@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface UserState {
   value: {
     token: string,
+    roles: string[],
     darkMode: boolean
   };
 }
@@ -11,6 +12,7 @@ export interface UserState {
 const initialState: UserState = {
   value: {
     token: "",
+    roles: [],
     darkMode: true
   }
 };
@@ -19,8 +21,9 @@ export const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    addTokenToUser: (state, action: PayloadAction<string>) => {
-      state.value.token = action.payload;
+    connectUser: (state, action: PayloadAction<{token: string, roles: string[]}>) => {
+      state.value.token = action.payload.token;
+      state.value.roles = action.payload.roles;
     },
     disconnect: (state) => {
       state.value.token = ""
@@ -32,5 +35,5 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { addTokenToUser, disconnect, toggleDarkMode } = usersSlice.actions;
+export const { connectUser, disconnect, toggleDarkMode } = usersSlice.actions;
 export const userReducer = usersSlice.reducer;

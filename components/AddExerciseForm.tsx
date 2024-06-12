@@ -2,34 +2,13 @@ import React, { useEffect } from "react";
 import InputWithLabel from "./ui/InputWithLabel";
 import SelectWithLabel from "./ui/SelectWithLabel";
 import { useAppSelector } from "@/reducer/store";
+import { ExerciseObject, ExercisesObjectData, MuscleGroupObject, MuscleGroupsData } from "@/app/type";
 
 type AddExerciseFormProps = {
   className: string;
   fetchWorkoutData: () => void;
   handleRefreshWorkouts: () => void;
 
-}
-
-interface MuscleGroupObject {
-  name: string;
-  _id: string;
-};
-
-interface MuscleGroupsData {
-  result: boolean;
-  message: string;
-  muscleGroups: [MuscleGroupObject];
-}
-
-interface ExerciseObject {
-  name: string;
-  _id: string;
-}
-
-interface ExercisesObjectData {
-  result: boolean;
-  message: string;
-  exercises: [ExerciseObject];
 }
 
 export default function AddExerciseForm({ className, handleRefreshWorkouts }: AddExerciseFormProps): JSX.Element {

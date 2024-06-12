@@ -2,7 +2,7 @@
 "use client"
 
 import InputWithLabel from "@/components/ui/InputWithLabel";
-import { addTokenToUser } from "@/reducer/slices/usersSlice";
+import { connectUser } from "@/reducer/slices/usersSlice";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
@@ -55,7 +55,7 @@ export default function Page() {
 
     if (data.result) {
       setLoading(true);
-      dispatch(addTokenToUser(data.token));
+      dispatch(connectUser({ token: data.token, roles: data.roles }));
       router.push("/app");
     } else {
       setError("Email ou mot de passe incorrect");

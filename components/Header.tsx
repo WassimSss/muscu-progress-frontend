@@ -9,7 +9,8 @@ import { useDispatch } from "react-redux";
 
 export function Header({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
-  const token = useAppSelector(state => state.users.value).token
+  const user = useAppSelector(state => state.users.value);
+  console.log("user : ", user)
   const dispatch = useDispatch();
 
   const handleDisconnect = () => {
@@ -26,7 +27,7 @@ export function Header({ className }: { className?: string }) {
 
       <nav className="flex gap-3 m-3">
 
-        {token ? (
+        {user.token ? (
           <>
             <Link href="/app">
               <p className="text-white text-sm font-bold md:text-lg">S&apos;entrainer</p>
@@ -35,6 +36,12 @@ export function Header({ className }: { className?: string }) {
             <Link href="/profil">
               <p className="text-white text-sm font-bold md:text-lg">Profil</p>
             </Link>
+
+            {user.roles.includes("ROLE_ADMIN") && (
+              <Link href="/admin">
+                <p className="text-white text-sm font-bold md:text-lg">Admin</p>
+              </Link>
+            )}
 
             <button onClick={handleDisconnect}>
               <p className="text-white text-sm font-bold md:text-lg">Déconnexion</p>

@@ -25,3 +25,25 @@ export interface WorkoutData {
 export interface WorkedDays {
   [key: string]: Date[];
 }
+
+export interface MuscleGroupObject {
+  name: string;
+  _id: string;
+};
+
+export interface MuscleGroupsData {
+  result: boolean;
+  message: string;
+  muscleGroups: [MuscleGroupObject];
+}
+
+export interface ExerciseObject {
+  name: string;
+  _id: string;
+}
+
+export interface ExercisesObjectData {
+  result: boolean;
+  message: string;
+  exercises: [ExerciseObject];
+}

@@ -37,6 +37,7 @@ export default function Page() {
   const [workedDaysByMonth, setWorkedDaysByMonth] = React.useState<WorkedDays>({});
 
   const today = moment().format('YYYY-MM-DD');
+  console.log("token : ", token);
 
   const fetchWorkoutData = useCallback(async (date: string = today, isDateSelected: boolean = false) => {
     console.log("isDateSelected ? date : today ", isDateSelected ? date : today)

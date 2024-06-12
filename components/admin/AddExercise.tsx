@@ -43,7 +43,8 @@ export function AddExercise({ className, muscleGroups }: { className?: string, m
     toast.error(data.message);
   }
 
-  const handleMuscleGroupChange = (value: string) => {
+  const handleMuscleGroupChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target
     if (!value) {
       setSelectedMuscleGroup(null);
       return;

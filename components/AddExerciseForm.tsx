@@ -38,7 +38,8 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
       });
   }, [token])
 
-  const handleMuscleGroupChange = (value: string) => {
+  const handleMuscleGroupChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
     setSelectedMuscleGroup(value);
     setSelectedExercise(null);
     console.log(selectedMuscleGroup, value);
@@ -58,7 +59,8 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
       });
   }
 
-  const handleExerciseChange = (value: string) => {
+  const handleExerciseChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
     setSelectedExercise(value)
   }
 

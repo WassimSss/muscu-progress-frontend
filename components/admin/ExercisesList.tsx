@@ -6,6 +6,7 @@ import SelectWithLabel from "../ui/SelectWithLabel";
 import InputWithLabel from "../ui/InputWithLabel";
 import { toast } from "react-toastify";
 import { MuscleGroupObject } from "@/app/type";
+import { Trash } from "lucide-react";
 
 export function ExercisesList({ className, muscleGroups }: { className?: string, muscleGroups: MuscleGroupObject[] }) {
   const token = useAppSelector(state => state.users.value).token
@@ -13,6 +14,21 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(null)
 
   const [exercises, setExercises] = useState<MuscleGroupObject[]>([])
+
+  const fetchExercises = async (idMuscleGroup: string) => {
+    const response = await fetch(`http://localhost:3000/users/exercises/get/${idMuscleGroup}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    console.log("data : ", data)
+    if (data.result) {
+      setExercises(data.exercises)
+    }
+  }
 
   const handleMuscleGroupChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectElement = event.target;
@@ -28,6 +44,25 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
     }
     setIdSelectedMuscleGroup(value);
     setSelectedMuscleGroup(dataText);
+    console.log("idSelectedMuscleGroup : ", idSelectedMuscleGroup)
+    fetchExercises(value)
+  }
+
+  const deleteMuscleGroup = async (idMuscleGroup: string) => {
+    const response = await fetch(`http://localhost:3000/admin/data-app/exercise/delete/${idMuscleGroup}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    if (data.result) {
+      toast.success(data.message)
+      return;
+    }
+    toast.error(data.message)
+
   }
 
   const muscleGroupsOption = muscleGroups.map((muscleGroup: MuscleGroupObject) => {
@@ -36,6 +71,19 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
       label: muscleGroup.name
     }
   }).sort((a: any, b: any) => a.label.localeCompare(b.label))
+
+  const allExercises = exercises.map((exercise: MuscleGroupObject) => {
+
+    return (
+      <div key={exercise._id} className="flex justify-between gap-4 m-4">
+
+        <p key={exercise._id} className="text-white">{exercise.name}</p>
+        <Trash className="text-red-500 hover:text-red-700 transition-colors cursor-pointer" onClick={() => deleteMuscleGroup(idSelectedMuscleGroup)} />
+
+      </div>
+    )
+  })
+
   return (
     <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
 
@@ -45,6 +93,9 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
       {selectedMuscleGroup && (
         <>
           <p className="text-primary text-lg font-bold">{selectedMuscleGroup}</p>
+          <div >
+            {allExercises}
+          </div>
         </>
       )
       }

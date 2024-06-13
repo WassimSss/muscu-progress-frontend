@@ -38,6 +38,7 @@ export function AddExercise({ className, muscleGroups, handleRefreshExercisesLis
 
     if (data.result) {
       toast.success(data.message)
+      setExerciseExerciseForm("");
       handleRefreshExercisesList();
       return;
     }
@@ -62,11 +63,17 @@ export function AddExercise({ className, muscleGroups, handleRefreshExercisesLis
     }
   }).sort((a: any, b: any) => a.label.localeCompare(b.label))
 
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSubmitExercise();
+    }
+  }
+
   return (
-    <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
+    <div className={`bg-neutral-800 p-6 flex flex-col gap-4 rounded-xl ${className}`}>
       <p className="text-white text-xl font-bold">Ajouter un exercice</p>
       <SelectWithLabel label="Groupe musculaire" required={true} id="muscleGroup" name="muscleGroup" className="mb-4 text-white" option={muscleGroupsOption} onChange={handleMuscleGroupChange} text="Selectionner un groupe musculaire" />
-      <InputWithLabel label="Nom de l'exercice" type="text" placeholder="Nom de l'exercice" required={true} id="exerciseName" name="exerciseName" className="mb-4 text-white" minLength={0} maxLength={50} active={selectedMuscleGroup === null ? false : true} onChange={(e) => setExerciseExerciseForm(e.target.value)} value={exerciseExerciseForm} />
+      <InputWithLabel label="Nom de l'exercice" type="text" placeholder="Nom de l'exercice" required={true} id="exerciseName" name="exerciseName" className="mb-4 text-white" minLength={0} maxLength={50} active={selectedMuscleGroup === null ? false : true} onChange={(e) => setExerciseExerciseForm(e.target.value)} value={exerciseExerciseForm} handleKeyPress={handleKeyPress} />
 
       <button onClick={handleSubmitExercise} className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Ajouter</button>
 

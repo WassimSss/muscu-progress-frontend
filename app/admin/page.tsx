@@ -81,8 +81,11 @@ export default function Page() {
         <MuscleGroupList className="my-4 md:w-1/2 md:my-0 max-h-96" muscleGroups={muscleGroups} fetchMuscleGroups={fetchMuscleGroups} />
         <ExercisesList className="my-4 md:w-1/2 md:my-0 max-h-96" muscleGroups={muscleGroups} refreshExercises={refreshExercises} />
       </div>
-      <AddExercise className="mb-4" muscleGroups={muscleGroups} handleRefreshExercisesList={handleRefreshExercisesList} />
-      <AddMuscleGroup className="mb-4" fetchMuscleGroups={fetchMuscleGroups} />
+
+      <div className="gap-4 md:flex md:gap-x-4">
+        <AddMuscleGroup className="my-4 md:w-1/2 md:my-0" fetchMuscleGroups={fetchMuscleGroups} />
+        <AddExercise className="my-4 md:w-1/2 md:my-0" muscleGroups={muscleGroups} handleRefreshExercisesList={handleRefreshExercisesList} />
+      </div>
 
     </main>
   );

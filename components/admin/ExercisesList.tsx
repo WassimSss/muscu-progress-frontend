@@ -1,21 +1,20 @@
 "use client";
 
 import { useAppSelector } from "@/reducer/store";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SelectWithLabel from "../ui/SelectWithLabel";
 import InputWithLabel from "../ui/InputWithLabel";
 import { toast } from "react-toastify";
 import { MuscleGroupObject } from "@/app/type";
 import { Trash } from "lucide-react";
 
-export function ExercisesList({ className, muscleGroups }: { className?: string, muscleGroups: MuscleGroupObject[] }) {
+export function ExercisesList({ className, muscleGroups, refreshExercises }: { className?: string, muscleGroups: MuscleGroupObject[], refreshExercises: boolean }) {
   const token = useAppSelector(state => state.users.value).token
   const [idSelectedMuscleGroup, setIdSelectedMuscleGroup] = useState<string | null>(null)
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(null)
-
   const [exercises, setExercises] = useState<MuscleGroupObject[]>([])
 
-  const fetchExercises = async (idMuscleGroup: string) => {
+  const fetchExercises = useCallback(async (idMuscleGroup: string) => {
     const response = await fetch(`http://localhost:3000/users/exercises/get/${idMuscleGroup}`, {
       method: 'GET',
       headers: {
@@ -28,7 +27,15 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
     if (data.result) {
       setExercises(data.exercises)
     }
-  }
+  }, [token, setExercises])
+
+  useEffect(() => {
+    if (idSelectedMuscleGroup !== null) {
+      fetchExercises(idSelectedMuscleGroup)
+    }
+  }, [refreshExercises, fetchExercises, idSelectedMuscleGroup])
+
+
 
   const handleMuscleGroupChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectElement = event.target;
@@ -91,7 +98,7 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
 
   console.log("exercises : ", exercises)
   return (
-    <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
+    <div className={`bg-neutral-800 p-6 flex flex-col gap-4 rounded-xl ${className}`}>
 
       <p className="text-white text-xl font-bold">Liste des exercices</p>
       <SelectWithLabel label="Groupe musculaire" required={true} id="muscleGroup" name="muscleGroup" className="mb-4 text-white" option={muscleGroupsOption} onChange={handleMuscleGroupChange} text="Selectionner un groupe musculaire" />
@@ -99,7 +106,7 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
       {selectedMuscleGroup && (
         <>
           <p className="text-primary text-lg font-bold">{selectedMuscleGroup}</p>
-          <div >
+          <div className="scroll-container">
             {exercises.length === 0 ? <p className="text-white">Pas d&apos;exercices</p> : allExercises}
           </div>
         </>

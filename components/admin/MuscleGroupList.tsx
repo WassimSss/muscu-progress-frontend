@@ -54,7 +54,7 @@ export function MuscleGroupList({ className, muscleGroups, fetchMuscleGroups }: 
 
 
       <p className="text-primary text-lg font-bold">{selectedMuscleGroup}</p>
-      <div >
+      <div className="scroll-container">
         {allMuscleGroups}
       </div>
 

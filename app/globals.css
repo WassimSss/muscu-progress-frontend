@@ -67,3 +67,13 @@
   .test {
     opacity: 0.5;
   }
+
+  .scroll-container {
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  }
+  
+  .scroll-container::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }

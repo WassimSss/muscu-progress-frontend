@@ -7,7 +7,7 @@ import InputWithLabel from "../ui/InputWithLabel";
 import { toast } from "react-toastify";
 import { MuscleGroupObject } from "@/app/type";
 
-export function AddExercise({ className, muscleGroups }: { className?: string, muscleGroups: MuscleGroupObject[] }) {
+export function AddExercise({ className, muscleGroups, handleRefreshExercisesList }: { className?: string, muscleGroups: MuscleGroupObject[], handleRefreshExercisesList: () => void }) {
   const token = useAppSelector(state => state.users.value).token
   const [exerciseExerciseForm, setExerciseExerciseForm] = useState<string | undefined>(undefined)
   const [selectedMuscleGroup, setSelectedMuscleGroup] = useState<string | null>(null)
@@ -38,6 +38,7 @@ export function AddExercise({ className, muscleGroups }: { className?: string, m
 
     if (data.result) {
       toast.success(data.message)
+      handleRefreshExercisesList();
       return;
     }
     toast.error(data.message);

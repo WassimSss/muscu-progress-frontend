@@ -19,6 +19,7 @@ export default function Page() {
   const user = useAppSelector(state => state.users.value);
   const router = useRouter();
   const [exerciseExerciseForm, setExerciseExerciseForm] = useState<string | undefined>(undefined)
+  const [refreshExercises, setRefreshExercises] = useState<boolean>(false)
   const [muscleGroups, setMuscleGroups] = useState<MuscleGroupObject[]>([])
   const token = useAppSelector(state => state.users.value).token
 
@@ -37,6 +38,7 @@ export default function Page() {
   useEffect(() => {
     fetchMuscleGroups();
   }, [token, fetchMuscleGroups])
+
   useEffect(() => {
     fetch("http://localhost:3000/users/muscle-groups/get", {
       headers: {
@@ -64,6 +66,9 @@ export default function Page() {
     )
   }
 
+  const handleRefreshExercisesList = () => {
+    setRefreshExercises(!refreshExercises);
+  }
 
 
 
@@ -72,10 +77,11 @@ export default function Page() {
     <main className="flex min-h-screen flex-col mt-24 md:p-16 gap-6 px-4">
       <p className="text-white text-3xl font-bold">Page Admin</p>
 
-      <MuscleGroupList className="mb-4" muscleGroups={muscleGroups} fetchMuscleGroups={fetchMuscleGroups} />
-      <ExercisesList className="mb-4" muscleGroups={muscleGroups} />
-
-      <AddExercise className="mb-4" muscleGroups={muscleGroups} />
+      <div className="gap-4 md:flex md:gap-x-4">
+        <MuscleGroupList className="my-4 md:w-1/2 md:my-0 max-h-96" muscleGroups={muscleGroups} fetchMuscleGroups={fetchMuscleGroups} />
+        <ExercisesList className="my-4 md:w-1/2 md:my-0 max-h-96" muscleGroups={muscleGroups} refreshExercises={refreshExercises} />
+      </div>
+      <AddExercise className="mb-4" muscleGroups={muscleGroups} handleRefreshExercisesList={handleRefreshExercisesList} />
       <AddMuscleGroup className="mb-4" fetchMuscleGroups={fetchMuscleGroups} />
 
     </main>

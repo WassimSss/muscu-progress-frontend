@@ -6,7 +6,7 @@ import CheckboxWithLabel from "./ui/CheckboxWithLabel";
 import InputWithLabel from "./ui/InputWithLabel";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { addTokenToUser } from "@/reducer/slices/usersSlice";
+import { connectUser } from "@/reducer/slices/usersSlice";
 
 export default function Step1() {
   const [email, setEmail] = useState<string>("");
@@ -57,7 +57,7 @@ export default function Step1() {
     const data = await register.json();
 
     if (data.result) {
-      dispatch(addTokenToUser(data.token));
+      dispatch(connectUser({ token: data.token, roles: data.roles }));
 
     } else {
       setError(data.message);

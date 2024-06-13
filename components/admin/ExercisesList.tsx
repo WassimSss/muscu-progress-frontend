@@ -48,9 +48,10 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
     fetchExercises(value)
   }
 
-  const deleteMuscleGroup = async (idMuscleGroup: string) => {
-    const response = await fetch(`http://localhost:3000/admin/data-app/exercise/delete/${idMuscleGroup}`, {
-      method: 'POST',
+  const deleteExercise = async (idExercise: string) => {
+    console.log(idExercise, `http://localhost:3000/admin/data-app/exercise/delete/${idExercise}`)
+    const response = await fetch(`http://localhost:3000/admin/data-app/exercise/delete/${idExercise}`, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -59,6 +60,9 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
     const data = await response.json()
     if (data.result) {
       toast.success(data.message)
+      if (idSelectedMuscleGroup !== null) {
+        fetchExercises(idSelectedMuscleGroup);
+      }
       return;
     }
     toast.error(data.message)
@@ -73,17 +77,19 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
   }).sort((a: any, b: any) => a.label.localeCompare(b.label))
 
   const allExercises = exercises.map((exercise: MuscleGroupObject) => {
+    console.log(exercise)
 
     return (
       <div key={exercise._id} className="flex justify-between gap-4 m-4">
 
         <p key={exercise._id} className="text-white">{exercise.name}</p>
-        <Trash className="text-red-500 hover:text-red-700 transition-colors cursor-pointer" onClick={() => deleteMuscleGroup(idSelectedMuscleGroup)} />
+        <Trash className="text-red-500 hover:text-red-700 transition-colors cursor-pointer" onClick={() => deleteExercise(exercise._id)} />
 
       </div>
     )
   })
 
+  console.log("exercises : ", exercises)
   return (
     <div className={`bg-neutral-800 p-6 flex flex-col justify-center gap-4 rounded-xl ${className}`}>
 
@@ -94,7 +100,7 @@ export function ExercisesList({ className, muscleGroups }: { className?: string,
         <>
           <p className="text-primary text-lg font-bold">{selectedMuscleGroup}</p>
           <div >
-            {allExercises}
+            {exercises.length === 0 ? <p className="text-white">Pas d&apos;exercices</p> : allExercises}
           </div>
         </>
       )

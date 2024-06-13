@@ -10,9 +10,10 @@ import { useCallback, useEffect, useState } from "react";
 import { ExercisesObjectData, MuscleGroupObject, MuscleGroupsData } from "../type";
 import { set } from "date-fns";
 import { toast } from "react-toastify";
-import { AddExercise } from "@/components/admin/addExercise";
+import { AddExercise } from "@/components/admin/AddExercise";
 import { AddMuscleGroup } from "@/components/admin/AddMuscleGroup";
 import { ExercisesList } from "@/components/admin/ExercisesList";
+import { MuscleGroupList } from "@/components/admin/MuscleGroupList";
 
 export default function Page() {
   const user = useAppSelector(state => state.users.value);
@@ -71,7 +72,9 @@ export default function Page() {
     <main className="flex min-h-screen flex-col mt-24 md:p-16 gap-6 px-4">
       <p className="text-white text-3xl font-bold">Page Admin</p>
 
+      <MuscleGroupList className="mb-4" muscleGroups={muscleGroups} fetchMuscleGroups={fetchMuscleGroups} />
       <ExercisesList className="mb-4" muscleGroups={muscleGroups} />
+
       <AddExercise className="mb-4" muscleGroups={muscleGroups} />
       <AddMuscleGroup className="mb-4" fetchMuscleGroups={fetchMuscleGroups} />
 

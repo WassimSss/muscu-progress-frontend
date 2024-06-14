@@ -52,4 +52,5 @@ export interface ExercisesObjectData {
 export interface UserWeight {
   weight: number;
   date: string;
+  _id: string;
 }

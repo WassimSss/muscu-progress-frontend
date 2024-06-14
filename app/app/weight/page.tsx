@@ -1,14 +1,21 @@
 "use client"
 
+import useAuthClientAndRedirect from "@/app/hooks/useAuthClientAndRedirect";
+import useAuthServerAndRedirect from "@/app/hooks/useAuthServerAndRedirect";
 import { UserWeight } from "@/app/type";
 import InputWithLabel from "@/components/ui/InputWithLabel"
 import { useAppSelector } from "@/reducer/store";
 import moment from "moment";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 export default function Page() {
+  const requireAuth = true;
+  const redirect = "/"
+  useAuthServerAndRedirect(requireAuth, redirect);
+  useAuthClientAndRedirect(requireAuth, redirect);
   // const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 }, { name: 'Page B', uv: 300, pv: 4567, amt: 2400 }, { name: 'Page C', uv: 300, pv: 1398, amt: 2400 }, { name: 'Page D', uv: 200, pv: 9800, amt: 2400 }, { name: 'Page E', uv: 278, pv: 3908, amt: 2400 }, { name: 'Page F', uv: 189, pv: 4800, amt: 2400 }]
   const [weight, setWeight] = useState<number>(0)
   const [dataWeight, setDataWeight] = useState<UserWeight[]>([])
@@ -92,7 +99,7 @@ export default function Page() {
             <Tooltip />
           </LineChart>
         </div>
-        <button className="bg-primary text-white p-2 rounded-lg">Voir l&apos;historique</button>
+        <Link href="/app/weight/details" className="bg-primary text-white p-2 rounded-lg">Voir l&apos;historique</Link>
       </div>
     </main >
   )

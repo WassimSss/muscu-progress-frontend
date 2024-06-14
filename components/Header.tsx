@@ -33,8 +33,8 @@ export function Header({ className }: { className?: string }) {
               <p className="text-white text-sm font-bold md:text-lg">S&apos;entrainer</p>
             </Link>
 
-            <Link href="/profil">
-              <p className="text-white text-sm font-bold md:text-lg">Profil</p>
+            <Link href="/app/weight">
+              <p className="text-white text-sm font-bold md:text-lg">Poids</p>
             </Link>
 
             {user.roles.includes("ROLE_ADMIN") && (

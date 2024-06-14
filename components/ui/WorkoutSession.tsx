@@ -35,7 +35,7 @@ export default function WorkoutSession({ className = "", fetchWorkoutData, worko
   const token = useAppSelector(state => state.users.value).token
 
   const handleRemove = async (idSet: number) => {
-    const response = await fetch(`https://vercel.com/wassimsss-projects/muscu-progress-backendusers/workouts/sets/${idSet}/remove`, {
+    const response = await fetch(`http://localhost:3000/users/workouts/sets/${idSet}/remove`, {
       method: 'DELETE',
       headers: {
         "Content-Type": "application/json",

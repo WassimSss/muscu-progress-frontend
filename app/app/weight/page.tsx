@@ -19,6 +19,7 @@ export default function Page() {
   // const data = [{ name: 'Page A', uv: 400, pv: 2400, amt: 2400 }, { name: 'Page B', uv: 300, pv: 4567, amt: 2400 }, { name: 'Page C', uv: 300, pv: 1398, amt: 2400 }, { name: 'Page D', uv: 200, pv: 9800, amt: 2400 }, { name: 'Page E', uv: 278, pv: 3908, amt: 2400 }, { name: 'Page F', uv: 189, pv: 4800, amt: 2400 }]
   const [weight, setWeight] = useState<number>(0)
   const [dataWeight, setDataWeight] = useState<UserWeight[]>([])
+  const [program, setProgram] = useState<string>("")
   const token = useAppSelector(state => state.users.value).token
 
   const data = dataWeight.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((weight) => {
@@ -37,7 +38,7 @@ export default function Page() {
   }
 
   const handleSubmit = async () => {
-    const response = await fetch("https://vercel.com/wassimsss-projects/muscu-progress-backendusers/weights/add", {
+    const response = await fetch("http://localhost:3000/users/weights/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +60,7 @@ export default function Page() {
   }
 
   const getWeights = useCallback(async () => {
-    const response = await fetch("https://vercel.com/wassimsss-projects/muscu-progress-backendusers/weights/get", {
+    const response = await fetch("http://localhost:3000/users/weights/get", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -77,20 +78,75 @@ export default function Page() {
     toast.error(data.message);
   }, [token])
 
+  const getProgram = useCallback(async () => {
+    const response = await fetch("http://localhost:3000/users/programs/get", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    });
+
+    const data = await response.json();
+
+    console.log("data : ", data);
+
+    if (data.result) {
+      setProgram(data.program)
+      return;
+    }
+    toast.error(data.message);
+  }, [token]);
+
   useEffect(() => {
     getWeights();
   }, [getWeights])
+
+  useEffect(() => {
+    getProgram();
+  }, [getProgram])
+
+  let programText;
+
+  switch (program) {
+    case "gain_mass'":
+      programText = "Prise de masse"
+      break;
+    case "weight_loss":
+      programText = "Perte de poids"
+      break;
+    case "maintenance":
+      programText = "Maintien"
+      break;
+    case "choose_program":
+      programText = "Aucun"
+      break;
+    default:
+      programText = "Pas de programme"
+  }
+
   return (
     <main className="flex min-h-screen flex-col items-center mt-24 md:p-16 gap-6 px-4" >
       <h1 className="text-3xl font-bold text-white">Poids</h1>
 
+
+      <div className="flex items-center justify-center gap-4">
+        <p className="text-xl font-bold text-white">Votre programme actuel : {programText}</p>
+        {program === "choose_program" && <Link href="/app/program" className="bg-primary text-white p-2 rounded-lg">Choisir un programme</Link>}
+      </div>
+
+
       <div className="flex flex-col items-center gap-4">
-        <div className="flex justify-center items-end gap-4 bg-neutral-800 p-6 rounded-xl ">
-          <InputWithLabel label="Poids" type="number" placeholder="Entrez votre poids" id="weight" name="weight" className="text-white" onChange={handleChange} />
-          <button className="bg-primary text-white p-2 rounded-lg" onClick={handleSubmit}>Ajouter une pesée</button>
+        <div className="flex justify-center items-center flex-col  gap-4 bg-neutral-800 p-6 rounded-xl ">
+          <h3 className="text-2xl font-bold text-white">Ajouter une pesée</h3>
+          <div className="flex justify-center item-end gap-x-2">
+            <InputWithLabel label="Poids" type="number" placeholder="Entrez votre poids" id="weight" name="weight" className="text-white" onChange={handleChange} />
+            <button className="bg-primary text-white p-2 rounded-lg self-end" onClick={handleSubmit}>Ajouter une pesée</button>
+          </div>
         </div>
 
-        <div className="flex justify-center items-end gap-4 bg-neutral-800 p-6 rounded-xl ">
+        <div className="flex justify-center flex-col items-center gap-4 bg-neutral-800 p-6 rounded-xl ">
+          <h3 className="text-2xl font-bold text-white">Graphique de vos pésées</h3>
           {data.length === 0 ? <p className="text-lg text-white">Encore aucun poids enregistré</p> : (
             <LineChart width={600} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
               <Line type="monotone" dataKey="uv" stroke="#8884d8" />

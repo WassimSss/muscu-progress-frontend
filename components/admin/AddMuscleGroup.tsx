@@ -21,7 +21,7 @@ export function AddMuscleGroup({ className, fetchMuscleGroups }: { className?: s
       return;
     }
 
-    const response = await fetch("https://vercel.com/wassimsss-projects/muscu-progress-backendadmin/data-app/muscle-group/add", {
+    const response = await fetch("http://localhost:3000/admin/data-app/muscle-group/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

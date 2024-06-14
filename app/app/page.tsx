@@ -44,8 +44,8 @@ export default function Page() {
     console.log("isDateSelected : ", isDateSelected)
     console.log("date : ", date)
     console.log("today : ", today)
-    // console.log(`https://vercel.com/wassimsss-projects/muscu-progress-backendusers/workouts/get/${isDateSelected ? date : today}`)
-    const response = await fetch(`https://vercel.com/wassimsss-projects/muscu-progress-backendusers/workouts/get/${isDateSelected ? date : today}`, {
+    // console.log(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`)
+    const response = await fetch(`http://localhost:3000/users/workouts/get/${isDateSelected ? date : today}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -74,7 +74,7 @@ export default function Page() {
       return;
     }
 
-    const response = await fetch(`https://vercel.com/wassimsss-projects/muscu-progress-backendusers/workouts/get/worked-days/${month}/${year}`, {
+    const response = await fetch(`http://localhost:3000/users/workouts/get/worked-days/${month}/${year}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

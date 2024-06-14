@@ -91,13 +91,15 @@ export default function Page() {
         </div>
 
         <div className="flex justify-center items-end gap-4 bg-neutral-800 p-6 rounded-xl ">
-          <LineChart width={600} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-          </LineChart>
+          {data.length === 0 ? <p className="text-lg text-white">Encore aucun poids enregistré</p> : (
+            <LineChart width={600} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+              <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+            </LineChart>
+          )}
         </div>
         <Link href="/app/weight/details" className="bg-primary text-white p-2 rounded-lg">Voir l&apos;historique</Link>
       </div>

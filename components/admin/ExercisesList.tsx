@@ -15,7 +15,7 @@ export function ExercisesList({ className, muscleGroups, refreshExercises }: { c
   const [exercises, setExercises] = useState<MuscleGroupObject[]>([])
 
   const fetchExercises = useCallback(async (idMuscleGroup: string) => {
-    const response = await fetch(`http://localhost:3000/users/exercises/get/${idMuscleGroup}`, {
+    const response = await fetch(`https://vercel.com/wassimsss-projects/muscu-progress-backendusers/exercises/get/${idMuscleGroup}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -56,8 +56,8 @@ export function ExercisesList({ className, muscleGroups, refreshExercises }: { c
   }
 
   const deleteExercise = async (idExercise: string) => {
-    console.log(idExercise, `http://localhost:3000/admin/data-app/exercise/delete/${idExercise}`)
-    const response = await fetch(`http://localhost:3000/admin/data-app/exercise/delete/${idExercise}`, {
+    console.log(idExercise, `https://vercel.com/wassimsss-projects/muscu-progress-backendadmin/data-app/exercise/delete/${idExercise}`)
+    const response = await fetch(`https://vercel.com/wassimsss-projects/muscu-progress-backendadmin/data-app/exercise/delete/${idExercise}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

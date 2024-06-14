@@ -9,6 +9,7 @@ export interface WorkoutSessionProps {
 export interface WorkoutExerciseSets {
   weight: number;
   reps: number;
+  type: string;
   idSet: number;
 }
 

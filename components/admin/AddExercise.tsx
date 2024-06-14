@@ -7,6 +7,7 @@ import InputWithLabel from "../ui/InputWithLabel";
 import { toast } from "react-toastify";
 import { MuscleGroupObject } from "@/app/type";
 
+
 export function AddExercise({ className, muscleGroups, handleRefreshExercisesList }: { className?: string, muscleGroups: MuscleGroupObject[], handleRefreshExercisesList: () => void }) {
   const token = useAppSelector(state => state.users.value).token
   const [exerciseExerciseForm, setExerciseExerciseForm] = useState<string | undefined>(undefined)
@@ -23,7 +24,7 @@ export function AddExercise({ className, muscleGroups, handleRefreshExercisesLis
       return;
     }
 
-    const response = await fetch("https://muscu-progress-backend.vercel.app/admin/data-app/exercise/add", {
+    const response = await fetch("http://localhost:3000/admin/data-app/exercise/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

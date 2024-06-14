@@ -24,7 +24,7 @@ export default function Page() {
   const token = useAppSelector(state => state.users.value).token
 
   const fetchMuscleGroups = useCallback(async () => {
-    const response = await fetch("https://muscu-progress-backend.vercel.app/users/muscle-groups/get", {
+    const response = await fetch("http://localhost:3000/users/muscle-groups/get", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -40,7 +40,7 @@ export default function Page() {
   }, [token, fetchMuscleGroups])
 
   useEffect(() => {
-    fetch("https://muscu-progress-backend.vercel.app/users/muscle-groups/get", {
+    fetch("http://localhost:3000/users/muscle-groups/get", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

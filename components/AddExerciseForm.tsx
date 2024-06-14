@@ -3,6 +3,8 @@ import InputWithLabel from "./ui/InputWithLabel";
 import SelectWithLabel from "./ui/SelectWithLabel";
 import { useAppSelector } from "@/reducer/store";
 import { ExerciseObject, ExercisesObjectData, MuscleGroupObject, MuscleGroupsData } from "@/app/type";
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 type AddExerciseFormProps = {
   className: string;
@@ -19,10 +21,11 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
   const [selectedExercise, setSelectedExercise] = React.useState<string | null>(null)
   const [weight, setWeight] = React.useState<string | null>(null)
   const [reps, setReps] = React.useState<string | null>(null)
+  const [type, setType] = React.useState<string>("dumbbell")
   const token = useAppSelector(state => state.users.value).token
 
   useEffect(() => {
-    fetch("https://muscu-progress-backend.vercel.app/users/muscle-groups/get", {
+    fetch("http://localhost:3000/users/muscle-groups/get", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -43,7 +46,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
     setSelectedMuscleGroup(value);
     setSelectedExercise(null);
     console.log(selectedMuscleGroup, value);
-    fetch(`https://muscu-progress-backend.vercel.app/users/exercises/get/${value}`, {
+    fetch(`http://localhost:3000/users/exercises/get/${value}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -105,9 +108,29 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
     }
   }).sort((a: any, b: any) => a.label.localeCompare(b.label))
 
+  const typeExerciseOption = [
+    { value: "dumbbell", label: "Haltère" },
+    { value: "machine", label: "Machine" },
+    { value: "cable", label: "Câble" },
+    { value: "bodyweight", label: "Poids du corps" }
+  ]
+
+  const exerciseOption = typeExerciseOption.map((type: { value: string, label: string }) => {
+    return (
+      <div key={type.value} className="flex items-center space-x-2" >
+        <RadioGroupItem value={type.value} id={type.value} />
+        <Label htmlFor={type.value}>{type.label}</Label>
+      </div >
+    );
+  });
+
+  const handleTypeChange = (e: string) => {
+    setType(e)
+  }
+
   const handleSubmit = async () => {
 
-    const addWokout = await fetch("https://muscu-progress-backend.vercel.app/users/workouts/add", {
+    const addWokout = await fetch("http://localhost:3000/users/workouts/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -117,7 +140,8 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
         idMuscleGroup: selectedMuscleGroup,
         idExercise: selectedExercise,
         weight: weight,
-        repetitions: reps
+        repetitions: reps,
+        type: type
       }),
     });
 
@@ -133,8 +157,12 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
       <InputWithLabel label="Poids" type="number" placeholder="0" required={true} id="weight" name="weight" className="mb-4 text-white" minLength={0} maxLength={3} active={selectedExercise !== null} onChange={(e) => handleWeightChange(e)} value={weight ? weight.toString() : ""} />
       <InputWithLabel label="Reps" type="number" placeholder="0" required={true} id="reps" name="reps" className="mb-4 text-white" minLength={0} maxLength={3} active={selectedExercise !== null} onChange={(e) => handleRepsChange(e)} value={reps ? reps.toString() : ""} />
 
+      <RadioGroup defaultValue={type} className="text-white" onValueChange={(e: string) => handleTypeChange(e)}>
+        {exerciseOption}
+      </RadioGroup>
+
       <button onClick={handleSubmit} className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Ajouter</button>
 
-    </div>
+    </div >
   )
 }

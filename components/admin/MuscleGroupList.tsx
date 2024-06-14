@@ -15,8 +15,8 @@ export function MuscleGroupList({ className, muscleGroups, fetchMuscleGroups }: 
 
   console.log("muscleGroups : ", muscleGroups)
   const deleteExercise = async (idExercise: string) => {
-    console.log(idExercise, `https://muscu-progress-backend.vercel.app/admin/data-app/exercise/delete/${idExercise}`)
-    const response = await fetch(`https://muscu-progress-backend.vercel.app/admin/data-app/muscle-group/delete/${idExercise}`, {
+    console.log(idExercise, `http://localhost:3000/admin/data-app/exercise/delete/${idExercise}`)
+    const response = await fetch(`http://localhost:3000/admin/data-app/muscle-group/delete/${idExercise}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

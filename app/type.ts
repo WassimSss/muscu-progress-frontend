@@ -48,3 +48,8 @@ export interface ExercisesObjectData {
   message: string;
   exercises: [ExerciseObject];
 }
+
+export interface UserWeight {
+  weight: number;
+  date: string;
+}

@@ -21,7 +21,7 @@ export function Header({ className }: { className?: string }) {
     <header
       className={cn("flex items-center justify-between bg-primary", className)}
     >
-      <Link href="/" className="m-3 ">
+      <Link href={user.token ? '/app' : '/'} className="m-3 ">
         <p className="text-md font-bold md:text-lg text-white">MuscuProgress</p>
       </Link>
 

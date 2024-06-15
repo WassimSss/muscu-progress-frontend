@@ -4,6 +4,7 @@ import useAuthClientAndRedirect from "@/app/hooks/useAuthClientAndRedirect";
 import useAuthServerAndRedirect from "@/app/hooks/useAuthServerAndRedirect";
 import { UserWeight } from "@/app/type";
 import InputWithLabel from "@/components/ui/InputWithLabel"
+import { Button } from "@/components/ui/button";
 import { useAppSelector } from "@/reducer/store";
 import moment from "moment";
 import Link from "next/link";
@@ -21,6 +22,7 @@ export default function Page() {
   const [dataWeight, setDataWeight] = useState<UserWeight[]>([])
   const [program, setProgram] = useState<string>("")
   const token = useAppSelector(state => state.users.value).token
+  // import { programs } from "@/app/data";
 
   const data = dataWeight.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((weight) => {
     const formattedDate = moment(weight.date).format("DD/MM/YYYY")
@@ -130,9 +132,12 @@ export default function Page() {
       <h1 className="text-3xl font-bold text-white">Poids</h1>
 
 
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex flex-col items-center justify-center gap-4">
         <p className="text-xl font-bold text-white">Votre programme actuel : {programText}</p>
-        {program === "choose_program" && <Link href="/app/program" className="bg-primary text-white p-2 rounded-lg">Choisir un programme</Link>}
+        <Link href="/app/program" className="bg-primary text-white p-2 rounded-lg">
+          {program === "choose_program" ? "Choisir un programme" : "Voir le programme"}
+        </Link>
+
       </div>
 
 
@@ -141,7 +146,7 @@ export default function Page() {
           <h3 className="text-2xl font-bold text-white">Ajouter une pesée</h3>
           <div className="flex justify-center item-end gap-x-2">
             <InputWithLabel label="Poids" type="number" placeholder="Entrez votre poids" id="weight" name="weight" className="text-white" onChange={handleChange} />
-            <button className="bg-primary text-white p-2 rounded-lg self-end" onClick={handleSubmit}>Ajouter une pesée</button>
+            <Button className="self-end" onClick={handleSubmit}>Ajouter une pesée</Button>
           </div>
         </div>
 

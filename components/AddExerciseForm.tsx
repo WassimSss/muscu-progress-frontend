@@ -157,7 +157,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
       <InputWithLabel label="Poids" type="number" placeholder="0" required={true} id="weight" name="weight" className="mb-4 text-white" minLength={0} maxLength={3} active={selectedExercise !== null} onChange={(e) => handleWeightChange(e)} value={weight ? weight.toString() : ""} />
       <InputWithLabel label="Reps" type="number" placeholder="0" required={true} id="reps" name="reps" className="mb-4 text-white" minLength={0} maxLength={3} active={selectedExercise !== null} onChange={(e) => handleRepsChange(e)} value={reps ? reps.toString() : ""} />
 
-      <RadioGroup defaultValue={type} className="text-white" onValueChange={(e: string) => handleTypeChange(e)}>
+      <RadioGroup defaultValue={type} className="text-white flex items-center justify-center my-4" onValueChange={(e: string) => handleTypeChange(e)}>
         {exerciseOption}
       </RadioGroup>
 

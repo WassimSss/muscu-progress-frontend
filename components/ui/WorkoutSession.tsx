@@ -79,7 +79,7 @@ export default function WorkoutSession({ className = "", fetchWorkoutData, worko
                   break;
                 case "cable":
                   logoType = <Cable className={typeStyle} size={typeSize} />
-                default:
+                  break;
                 case "bodyweight":
                   logoType = <Hand className={typeStyle} size={typeSize} />
                   break;

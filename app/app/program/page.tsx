@@ -15,6 +15,7 @@ import { useAppSelector } from "@/reducer/store";
 import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 import { programs } from "@/app/data";
+import Link from "next/link";
 export default function Page() {
   const requireAuth = true;
   const redirect = "/";
@@ -101,6 +102,11 @@ export default function Page() {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+
+      <p className="text-lg text-white text-center">Vous n&apos;avez pas encore calculé votre besoin journalier de kalories pour atteindre vos objectifs.</p>
+      <Link href="/app/caloric" className="bg-primary text-white p-2 rounded-lg">
+        Calculer votre besoin journalier de kalories
+      </Link>
     </main>
   );
 }

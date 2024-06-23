@@ -18,7 +18,7 @@ export default function Page() {
   console.log(token)
   const [dataWeight, setDataWeight] = useState<UserWeight[]>([])
   const getWeights = useCallback(async () => {
-    const response = await fetch("http://localhost:3000/users/weights/get", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/weights/get", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +42,7 @@ export default function Page() {
 
   const handleDelete = async (id: string) => {
     console.log(id)
-    const response = await fetch(`http://localhost:3000/users/weights/${id}/remove`, {
+    const response = await fetch(`https://muscu-progress-backend.vercel.app/users/weights/${id}/remove`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

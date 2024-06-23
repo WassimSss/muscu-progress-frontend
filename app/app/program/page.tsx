@@ -47,7 +47,7 @@ export default function Page() {
   });
 
   const handleChoseProgram = async (program: string) => {
-    const response = await fetch("http://localhost:3000/users/programs/choose", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/programs/choose", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export default function Page() {
   }
 
   const getUserProgram = useCallback(async () => {
-    const response = await fetch("http://localhost:3000/users/programs/get", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/programs/get", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

@@ -43,7 +43,7 @@ export default function Step1() {
 
     setError("");
 
-    const register = await fetch("https://muscu-progress-backend.vercel.app/signup", {
+    const register = await fetch("http://localhost:3000/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

@@ -26,7 +26,8 @@ export const usersSlice = createSlice({
       state.value.roles = action.payload.roles;
     },
     disconnect: (state) => {
-      state.value.token = ""
+      state.value.token = "";
+      state.value.roles = [];
     },
     toggleDarkMode: (state) => {
       state.value.darkMode = !state.value.darkMode;

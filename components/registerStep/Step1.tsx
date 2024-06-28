@@ -2,13 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import CheckboxWithLabel from "./ui/CheckboxWithLabel";
-import InputWithLabel from "./ui/InputWithLabel";
+import CheckboxWithLabel from "../ui/CheckboxWithLabel";
+import InputWithLabel from "../ui/InputWithLabel";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { connectUser } from "@/reducer/slices/usersSlice";
 
-export default function Step1() {
+interface Step1Props {
+  handleStep: (step: string) => void;
+}
+
+export default function Step1({ handleStep }: Step1Props) {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -27,7 +31,7 @@ export default function Step1() {
     setConfirmPassword(e.target.value);
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async () => {
     if (!email || !password || !confirmPassword) {
       setError("Veuillez remplir tous les champs");
       console.log(1);
@@ -42,27 +46,28 @@ export default function Step1() {
     }
 
     setError("");
+    handleStep("2");
 
-    const register = await fetch("http://localhost:3000/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        confirmPassword
-      })
-    });
-    const data = await register.json();
+    // const register = await fetch("http://localhost:3000/signup", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     email,
+    //     password,
+    //     confirmPassword
+    //   })
+    // });
+    // const data = await register.json();
 
-    if (data.result) {
-      dispatch(connectUser({ token: data.token, roles: data.roles }));
+    // if (data.result) {
+    //   dispatch(connectUser({ token: data.token, roles: data.roles }));
 
-    } else {
-      setError(data.message);
-    }
-    console.log("data", data);
+    // } else {
+    //   setError(data.message);
+    // }
+    // console.log("data", data);
   }
   // </div>
   return (
@@ -75,15 +80,15 @@ export default function Step1() {
             Créer un compte
           </h1>
           <div className="space-y-4 md:space-y-6">
-            <form onSubmit={(e) => handleSubmit(e)}>
-              <InputWithLabel label="Votre email" type="email" placeholder="email@gmail.com" id="email" name="email" value={email} onChange={handleChangeEmail} />
-              <InputWithLabel label="Mot de passe" type="password" placeholder="••••••••" id="password" name="password" value={password} onChange={handleChangePassword} />
-              <InputWithLabel label="Confirmer le mot de passe" type="password" placeholder="••••••••" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={handleChangeConfirmPassword} />
+            {/* <form onClick={(e) => handleSubmit(e)}> */}
+            <InputWithLabel label="Votre email" type="email" placeholder="email@gmail.com" id="email" name="email" value={email} onChange={handleChangeEmail} />
+            <InputWithLabel label="Mot de passe" type="password" placeholder="••••••••" id="password" name="password" value={password} onChange={handleChangePassword} />
+            <InputWithLabel label="Confirmer le mot de passe" type="password" placeholder="••••••••" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={handleChangeConfirmPassword} />
 
-              {error && <p className="text-red-500">{error}</p>}
-              <CheckboxWithLabel label="I agree to the" id="terms" name="terms" textLink="terms and privacy policy" url="#" />
-              <button type="submit" className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
-            </form>
+            {error && <p className="text-red-500">{error}</p>}
+            <CheckboxWithLabel label="I agree to the" id="terms" name="terms" textLink="terms and privacy policy" url="#" />
+            <button onClick={() => handleSubmit()} className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
+            {/* </form> */}
             <p className="text-sm font-light text-gray-500 dark:text-gray-400">
               Vous avez déjà un compte ? <Link href="/login" className="font-medium text-primary-600 hover:underline dark:text-primary-500">Se connecter ici</Link>
             </p>

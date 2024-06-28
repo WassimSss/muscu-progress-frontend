@@ -22,6 +22,8 @@ export default function Page() {
   const [dataWeight, setDataWeight] = useState<UserWeight[]>([])
   const [program, setProgram] = useState<string>("")
   const token = useAppSelector(state => state.users.value).token
+  const [caloricNeeds, setCaloricNeeds] = useState<number | null>(null)
+
   // import { programs } from "@/app/data";
 
   const data = dataWeight.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()).map((weight) => {
@@ -33,6 +35,18 @@ export default function Page() {
 
     }
   });
+
+  const getCaloricNeeds = useCallback(async () => {
+    const response = await fetch("http://localhost:3000/users/calories/needs/get-last", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await response.json();
+    console.log("needsCAloric ", data);
+
+    setCaloricNeeds(data.caloricNeeds);
+  }, [token])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -108,10 +122,15 @@ export default function Page() {
     getProgram();
   }, [getProgram])
 
+
+  useEffect(() => {
+    getCaloricNeeds();
+  }, [getCaloricNeeds])
+
   let programText;
 
   switch (program) {
-    case "gain_mass'":
+    case "gain_mass":
       programText = "Prise de masse"
       break;
     case "weight_loss":
@@ -134,9 +153,15 @@ export default function Page() {
 
       <div className="flex flex-col items-center justify-center gap-4">
         <p className="text-xl font-bold text-white">Votre programme actuel : {programText}</p>
-        <Link href="/app/program" className="bg-primary text-white p-2 rounded-lg">
-          {program === "choose_program" ? "Choisir un programme" : "Voir le programme"}
-        </Link>
+        <p className="text-white text-center">Votre besoin calorique est de : <span className="text-primary">{caloricNeeds}/kcal </span> par jour </p>
+        <div className="flex">
+          <Link href="/app/program" className="bg-primary text-white p-2 rounded-lg">
+            {program === "choose_program" ? "Choisir un programme" : "Voir le programme"}
+          </Link>
+          <Link href="/app/caloric" className="bg-primary text-white p-2 rounded-lg">
+            {caloricNeeds ? "Recalculer votre besoin de kcal" : "Calculer votre besoin de kcal"}
+          </Link>
+        </div>
 
       </div>
 

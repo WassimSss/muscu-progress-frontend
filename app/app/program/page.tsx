@@ -103,10 +103,6 @@ export default function Page() {
         <CarouselNext />
       </Carousel>
 
-      <p className="text-lg text-white text-center">Vous n&apos;avez pas encore calculé votre besoin journalier de kalories pour atteindre vos objectifs.</p>
-      <Link href="/app/caloric" className="bg-primary text-white p-2 rounded-lg">
-        Calculer votre besoin journalier de kalories
-      </Link>
     </main>
   );
 }

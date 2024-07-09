@@ -21,7 +21,7 @@ const useAuthServerAndRedirect = (requireAuth: boolean, redirect: string) => {
 		() => {
 			// Simulez une vérification d'authentification côté serveur
 			const checkAuth = async () => {
-				const response = await fetch(`http://localhost:3000/api/check-auth  `, {
+				const response = await fetch(`https://muscu-progress-backend.vercel.app/api/check-auth  `, {
 					method: 'GET',
 					cache: 'no-store',
 					headers: {

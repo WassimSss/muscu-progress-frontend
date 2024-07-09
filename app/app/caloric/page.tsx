@@ -18,7 +18,7 @@ export default function Page() {
   const token = useAppSelector(state => state.users.value).token;
 
   const getCaloricNeeds = useCallback(async () => {
-    const response = await fetch("http://localhost:3000/users/calories/needs/get-last", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/calories/needs/get-last", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

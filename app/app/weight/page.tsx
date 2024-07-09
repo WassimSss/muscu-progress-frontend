@@ -37,7 +37,7 @@ export default function Page() {
   });
 
   const getCaloricNeeds = useCallback(async () => {
-    const response = await fetch("http://localhost:3000/users/calories/needs/get-last", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/calories/needs/get-last", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -54,7 +54,7 @@ export default function Page() {
   }
 
   const handleSubmit = async () => {
-    const response = await fetch("http://localhost:3000/users/weights/add", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/weights/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ export default function Page() {
   }
 
   const getWeights = useCallback(async () => {
-    const response = await fetch("http://localhost:3000/users/weights/get", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/weights/get", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function Page() {
   }, [token])
 
   const getProgram = useCallback(async () => {
-    const response = await fetch("http://localhost:3000/users/programs/get", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/programs/get", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

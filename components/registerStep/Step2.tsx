@@ -28,7 +28,7 @@ export default function Step1({ handleStep }: Step1Props) {
   const token = useAppSelector((state) => state.users.value).token;
 
   const handleChoseProgram = async (program: string) => {
-    const response = await fetch("http://localhost:3000/users/programs/choose", {
+    const response = await fetch("https://muscu-progress-backend.vercel.app/users/programs/choose", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -95,7 +95,7 @@ export default function Step1({ handleStep }: Step1Props) {
     setError("");
     handleStep("2");
 
-    // const register = await fetch("http://localhost:3000/signup", {
+    // const register = await fetch("https://muscu-progress-backend.vercel.app/signup", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json"

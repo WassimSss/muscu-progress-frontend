@@ -43,7 +43,7 @@ export default function Page() {
 
     setError("");
 
-    const signin = await fetch("http://localhost:3000/signin", {
+    const signin = await fetch("https://muscu-progress-backend.vercel.app/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

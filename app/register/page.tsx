@@ -28,7 +28,7 @@ export default function Page() {
 
 
 
-      {step === "1" && <Step2 handleStep={handleStep} />}
+      {step === "1" && <Step1 handleStep={handleStep} />}
       {step === "2" && <Step2 handleStep={handleStep} />}
 
       {/* <StepArrow /> */}

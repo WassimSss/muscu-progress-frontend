@@ -25,7 +25,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
   const token = useAppSelector(state => state.users.value).token
 
   useEffect(() => {
-    fetch("https://muscu-progress-backend.vercel.app/users/muscle-groups/get", {
+    fetch("http://localhost:8080/users/muscle-groups/get", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -46,7 +46,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
     setSelectedMuscleGroup(value);
     setSelectedExercise(null);
     console.log(selectedMuscleGroup, value);
-    fetch(`https://muscu-progress-backend.vercel.app/users/exercises/get/${value}`, {
+    fetch(`http://localhost:8080/users/exercises/get/${value}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -139,7 +139,7 @@ export default function AddExerciseForm({ className, handleRefreshWorkouts }: Ad
     });
     // return;
 
-    const addWokout = await fetch("https://muscu-progress-backend.vercel.app/users/workouts/add", {
+    const addWokout = await fetch("http://localhost:8080/users/workouts/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

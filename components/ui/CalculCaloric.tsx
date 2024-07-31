@@ -68,7 +68,7 @@ export default function Page({ className }: { className?: string }) {
 
 
 
-    const response = await fetch("https://muscu-progress-backend.vercel.app/users/calories/needs/add", {
+    const response = await fetch("http://localhost:8080/users/calories/needs/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

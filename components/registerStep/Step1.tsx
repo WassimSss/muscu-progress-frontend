@@ -7,18 +7,27 @@ import InputWithLabel from "../ui/InputWithLabel";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { connectUser } from "@/reducer/slices/usersSlice";
+const registerData = import("../../json/register.json");
 
 interface Step1Props {
   handleStep: (step: string) => void;
 }
 
 export default function Step1({ handleStep }: Step1Props) {
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [errors, setErrors] = useState<string[]>([]);
   const dispatch = useDispatch();
+  let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
   const router = useRouter();
+
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  }
+
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   }
@@ -32,23 +41,42 @@ export default function Step1({ handleStep }: Step1Props) {
   }
 
   const handleSubmit = async () => {
-    if (!email || !password || !confirmPassword) {
-      setError("Veuillez remplir tous les champs");
+    if (!name || !email || !password || !confirmPassword) {
+      setErrors([...errors, (await registerData).form.errors.empty]);
       console.log(1);
 
       return;
     }
 
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas");
-      console.log(2);
-      return;
+    const nameData = (await registerData).input.name
+    if (!name) {
+      setErrors([...errors, nameData.errors.NotBlank]);
+    } else if (name.length > nameData.max || name.length < nameData.min) {
+      setErrors([...errors, nameData["errors"].Size]);
     }
 
-    setError("");
-    handleStep("2");
+    const emailData = (await registerData).input.email
+    if (!email) {
+      setErrors([...errors, emailData.errors.NotBlank]);
+    } else if (!email.match(regex)) {
+      setErrors([...errors, emailData.errors.Email]);
+    }
 
-    // const register = await fetch("https://muscu-progress-backend.vercel.app/signup", {
+    const passwordData = (await registerData).input.password
+    if (password.length < passwordData.min || password.length > passwordData.max) {
+      setErrors([...errors, passwordData.errors.Size]);
+    }
+
+    const confirmPasswordData = (await registerData).input.passwordConfirmation
+    if (password !== confirmPassword) {
+      setErrors([...errors, confirmPasswordData.errors.EqualTo]);
+    }
+
+
+    setErrors([]);
+    // handleStep("2");
+
+    // const register = await fetch("http://localhost:8080/api/public/register", {
     //   method: "POST",
     //   headers: {
     //     "Content-Type": "application/json"
@@ -61,14 +89,20 @@ export default function Step1({ handleStep }: Step1Props) {
     // });
     // const data = await register.json();
 
+    // console.log(data)
     // if (data.result) {
     //   dispatch(connectUser({ token: data.token, roles: data.roles }));
 
     // } else {
-    //   setError(data.message);
+    //   setErrors(data.errors);
     // }
+
     // console.log("data", data);
   }
+
+  const displayErrors = errors.map((error: string, index: number) => {
+    return <p key={index} className="text-red-500">{error}</p>
+  })
   // </div>
   return (
 
@@ -85,7 +119,7 @@ export default function Step1({ handleStep }: Step1Props) {
             <InputWithLabel label="Mot de passe" type="password" placeholder="••••••••" id="password" name="password" value={password} onChange={handleChangePassword} />
             <InputWithLabel label="Confirmer le mot de passe" type="password" placeholder="••••••••" id="confirm-password" name="confirm-password" value={confirmPassword} onChange={handleChangeConfirmPassword} />
 
-            {error && <p className="text-red-500">{error}</p>}
+            {errors && <p className="text-red-500">{errors}</p>}
             <CheckboxWithLabel label="I agree to the" id="terms" name="terms" textLink="terms and privacy policy" url="#" />
             <button onClick={() => handleSubmit()} className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Create an account</button>
             {/* </form> */}

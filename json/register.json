@@ -1,0 +1,39 @@
+{
+  "form": {
+    "errors": {
+      "empty": "Veuillez remplir tous les champs du formulaire"
+    }
+  },
+  "input": {
+    "name": {
+      "min": 2,
+      "max": 16,
+      "errors": {
+        "NotBlank": "Le nom est obligatoire",
+        "Size": "Le nom doit contenir entre 2 et 16 caractères"
+      }
+    },
+    "email": {
+      "errors": {
+        "NotBlank": "L'email est obligatoire",
+        "Email": "L'email n'est pas valide"
+      }
+    },
+    "password": {
+      "min": 8,
+      "max": 20,
+      "errors": {
+        "NotBlank": "Le mot de passe est obligatoire",
+        "Size": "Le mot de passe doit contenir au moins 8 caractères et ne doit pas en dépasser 20"
+      }
+    },
+    "passwordConfirmation": {
+      "min": 8,
+      "max": 20,
+      "errors": {
+        "NotBlank": "La confirmation du mot de passe est obligatoire",
+        "EqualTo": "Les mots de passe ne correspondent pas"
+      }
+    }
+  }
+}

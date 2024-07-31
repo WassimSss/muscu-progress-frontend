@@ -45,8 +45,8 @@ export default function Page() {
     console.log("date : ", date)
     console.log("today : ", today)
 
-    // console.log(`https://muscu-progress-backend.vercel.app/users/workouts/get/${isDateSelected ? date : today}`)
-    const response = await fetch(`https://muscu-progress-backend.vercel.app/users/workouts/get/${isDateSelected ? date : today}`, {
+    // console.log(`http://localhost:8080/users/workouts/get/${isDateSelected ? date : today}`)
+    const response = await fetch(`http://localhost:8080/users/workouts/get/${isDateSelected ? date : today}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -75,7 +75,7 @@ export default function Page() {
       return;
     }
 
-    const response = await fetch(`https://muscu-progress-backend.vercel.app/users/workouts/get/worked-days/${month}/${year}`, {
+    const response = await fetch(`http://localhost:8080/users/workouts/get/worked-days/${month}/${year}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
